@@ -1,0 +1,39 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def generate_sample_rainfall_data(num_cities=10, num_days=10):
+    cities = [f"City_{i+1}" for i in range(num_cities)]
+    rainfall_data = np.random.randint(0, 50, size=(num_cities, num_days))
+    df = pd.DataFrame(rainfall_data, columns=[f"Day_{i+1}" for i in range(num_days)], index=cities)
+    return df
+
+def calculate_average_rainfall(data):
+    average_rainfall = data.mean(axis=1)
+    return average_rainfall
+
+def write_result(result, output_file):
+    result.to_csv(output_file, header=True)
+
+def plot_rainfall_data(data):
+    plt.figure(figsize=(10, 6))
+    for city in data.index:
+        plt.plot(data.columns, data.loc[city], label=city)
+    plt.xlabel('Days')
+    plt.ylabel('Rainfall')
+    plt.title('Rainfall Data for Each City')
+    plt.legend()
+    plt.show()
+
+def main():
+    rainfall_data = generate_sample_rainfall_data()
+    average_rainfall = calculate_average_rainfall(rainfall_data)
+    write_result(average_rainfall, 'output_result_sample_rainfall.csv')
+    print("Rainfall Data:")
+    print(rainfall_data)
+    print("Average Rainfall:")
+    print(average_rainfall)
+    plot_rainfall_data(rainfall_data)
+
+if __name__ == "__main__":
+    main()
